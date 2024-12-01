@@ -5,14 +5,14 @@ import { getImgUrl } from '../../utils/getImgUrl'
 import { Link } from'react-router-dom'
 
 import { useDispatch } from'react-redux'
-// import { addToCart } from '../../redux/features/cart/cartSlice'
+import { addToCart } from '../../redux/features/cart/cartSlice'
 
 const BookCard = ({book}) => {
-    // const dispatch =  useDispatch();
+     const dispatch =  useDispatch();
 
-    // const handleAddToCart = (product) => {
-    //     dispatch(addToCart(product))
-    // }
+    const handleAddToCart = (product) => {
+        dispatch(addToCart(product))
+    }
     return (
         <div className=" rounded-lg transition-shadow duration-300">
             <div
@@ -39,12 +39,12 @@ const BookCard = ({book}) => {
                     <p className="font-medium mb-5">
                         ${book?.new_price} <span className="line-through font-normal ml-2">$ {book?.old_price}</span>
                     </p>
-                    {/* <button 
+                    <button 
                     onClick={() => handleAddToCart(book)}
                     className="btn-primary px-6 space-x-1 flex items-center gap-1 ">
                         <FiShoppingCart className="" />
                         <span>Add to Cart</span>
-                    </button> */}
+                    </button>
                 </div>
             </div>
         </div>

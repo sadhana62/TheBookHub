@@ -9,7 +9,7 @@ import { Pagination, Navigation } from 'swiper/modules';
 import 'swiper/css';
 import 'swiper/css/pagination';
 import 'swiper/css/navigation';
-import BookCard from '../Books/BookCard';
+// import BookCard from '../Books/BookCard';
 // import { useFetchAllBooksQuery } from '../../redux/features/books/booksApi';
 
 
