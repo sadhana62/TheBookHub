@@ -160,6 +160,4 @@ Create a `config.env` file in the backend directory with the following variables
 4. Test thoroughly
 5. Submit a pull request
 
-## License
-
-This project is licensed under the MIT License.
+   
