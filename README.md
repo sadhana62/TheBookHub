@@ -162,4 +162,4 @@ Create a `config.env` file in the backend directory with the following variables
 
 ## License
 
-This project is licensed under the MIT License. 
+This project is licensed under the MIT License.
