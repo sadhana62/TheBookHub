@@ -1,18 +1,42 @@
 import React from 'react'
 import { FiShoppingCart } from 'react-icons/fi'
 import { getImgUrl } from '../../utils/getImgUrl'
-
-import { Link } from'react-router-dom'
-
+import { Link, useNavigate } from'react-router-dom'
 import { useDispatch } from'react-redux'
 import { addToCart } from '../../redux/features/cart/cartSlice'
+import Swal from 'sweetalert2'
 
 const BookCard = ({book}) => {
-     const dispatch =  useDispatch();
+     const dispatch = useDispatch();
+     const navigate = useNavigate();
 
     const handleAddToCart = (product) => {
+        // Check if user is logged in
+        const token = localStorage.getItem('token');
+        
+        if (!token) {
+            // User is not logged in, show login prompt
+            Swal.fire({
+                title: "Login Required",
+                text: "Please login to add items to your cart",
+                icon: "info",
+                showCancelButton: true,
+                confirmButtonColor: "#3085d6",
+                cancelButtonColor: "#6c757d",
+                confirmButtonText: "Login Now",
+                cancelButtonText: "Cancel"
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    navigate('/login');
+                }
+            });
+            return;
+        }
+        
+        // User is logged in, proceed with adding to cart
         dispatch(addToCart(product))
     }
+    
     return (
         <div className=" rounded-lg transition-shadow duration-300">
             <div

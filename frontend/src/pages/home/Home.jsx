@@ -6,11 +6,17 @@ import News from './News'
 
 const Home = () => {
   return (
-    <div>
+    <div className="px-4 py-6 md:px-8 lg:px-12">
       <Banner/>
-      <BestSellers/>
-      <Recommened/>
-      <News/>
+      <div className="mt-8">
+        <BestSellers/>
+      </div>
+      <div className="mt-12">
+        <Recommened/>
+      </div>
+      <div className="mt-12">
+        <News/>
+      </div>
     </div>
   )
 }

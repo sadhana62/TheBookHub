@@ -4,9 +4,9 @@ import { IoSearchOutline } from "react-icons/io5";
 import { HiOutlineUser } from "react-icons/hi";
 
 import avatarImg from "../assets/avatar.png"
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
-// import { useAuth } from "../context/AuthContext";
+import Swal from 'sweetalert2'
 
 const navigation = [
     {name: "Dashboard", href:"/user-dashboard"},
@@ -17,13 +17,40 @@ const navigation = [
 
 const Navbar = () => {
 
-    const  [isDropdownOpen, setIsDropdownOpen] = useState(false)
-     const cartItems = useSelector(state => state.cart.cartItems);
+    const [isDropdownOpen, setIsDropdownOpen] = useState(false)
+    const [user, setUser] = useState(null)
+    const cartItems = useSelector(state => state.cart.cartItems);
    
-    //  const {currentUser, logout} = useAuth()
+    useEffect(() => {
+        const userData = localStorage.getItem('user');
+        if (userData) {
+            setUser(JSON.parse(userData));
+        }
+    }, []);
     
     const handleLogOut = () => {
-        logout()
+        Swal.fire({
+            title: 'Are you sure?',
+            text: "You will be logged out",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes, logout!'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                localStorage.removeItem('token');
+                localStorage.removeItem('user');
+                setUser(null);
+                setIsDropdownOpen(false);
+                
+                Swal.fire(
+                    'Logged out!',
+                    'You have been successfully logged out.',
+                    'success'
+                );
+            }
+        });
     }
 
     const token = localStorage.getItem('token');
@@ -51,18 +78,21 @@ const Navbar = () => {
 
                 {/* rigth side */}
                 <div className="relative flex items-center md:space-x-3 space-x-2">
-                    <div  link="/login">
+                    <div>
                         {
-                            false ? <>
-                            {/* <button onClick={() => setIsDropdownOpen(!isDropdownOpen)}>
-                                <img src={avatarImg} alt="" className={`size-7 rounded-full ${true ? 'ring-2 ring-blue-500' : ''}`} />
-                            </button> */}
+                            user ? <>
+                            <button onClick={() => setIsDropdownOpen(!isDropdownOpen)}>
+                                <img src={avatarImg} alt="" className={`size-7 rounded-full ${user ? 'ring-2 ring-blue-500' : ''}`} />
+                            </button>
                            
                             {/* show dropdowns */}
                             {
                                 isDropdownOpen && (
                                     <div className="absolute right-0 mt-2 w-48 bg-white shadow-lg rounded-md z-40">
                                         <ul className="py-2">
+                                            <li className="px-4 py-2 text-sm text-gray-700 border-b">
+                                                Welcome, {user.name}
+                                            </li>
                                             {
                                                 navigation.map((item) => (
                                                     <li key={item.name} onClick={() => setIsDropdownOpen(false)}>
@@ -75,13 +105,17 @@ const Navbar = () => {
                                             <li>
                                                 <button
                                                 onClick={handleLogOut}
-                                                className="block w-full text-left px-4 py-2 text-sm hover:bg-gray-100">Logout</button>
+                                                className="block w-full text-left px-4 py-2 text-sm hover:bg-gray-100 text-red-600">
+                                                    Logout
+                                                </button>
                                             </li>
                                         </ul>
                                     </div>
                                 )
                             }
-                            </> : token ?  <Link to="/dashboard" className='border-b-2 border-primary'>Dashboard</Link> : (
+                            </> : token ? (
+                                <Link to="/dashboard" className='border-b-2 border-primary'>Dashboard</Link>
+                            ) : (
                                 <Link to="/login"> <HiOutlineUser className="size-6" /></Link>
                             )
                         }
