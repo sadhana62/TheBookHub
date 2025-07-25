@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import BookCard from '../books/BookCard';
+import BookCard from '../Books/BookCard';
 
 // Import Swiper React components
 import { Swiper, SwiperSlide } from 'swiper/react';
@@ -21,14 +21,14 @@ const BestSellers = () => {
     const [selectedCategory, setSelectedCategory] = useState("Choose a genre");
 
     useEffect(() => {
-        fetch("Books.json")
+        fetch("http://localhost:5001/api/books")
           .then((res) => {
             if (!res.ok) throw new Error("Failed to fetch");
             return res.json();
           })
           .then((data) => {
-            setBooks(data);
-            console.log('Fetched data:', data);
+            setBooks(data.data); // adjust if your API response is different
+            console.log('Fetched data:', data.data);
           })
           .catch((err) => console.log("Error fetching data:", err));
       }, [selectedCategory]);

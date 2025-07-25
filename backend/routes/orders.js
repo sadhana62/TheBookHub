@@ -17,6 +17,7 @@ router.post('/', [
 ], async (req, res) => {
   try {
     // Check for validation errors
+    console.log("inside the order server",req.body);
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
       return res.status(400).json({
@@ -99,6 +100,7 @@ router.post('/', [
 // @route   GET /api/orders/myorders
 // @access  Private
 router.get('/myorders', protect, async (req, res) => {
+  console.log("inside my orders",req.user.id);
   try {
     const orders = await Order.find({ user: req.user.id })
       .populate('orderItems.book', 'title author imageLink')

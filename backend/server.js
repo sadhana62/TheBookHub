@@ -3,7 +3,7 @@ const mongoose = require('mongoose');
 const cors = require('cors');
 const helmet = require('helmet');
 const rateLimit = require('express-rate-limit');
-require('dotenv').config({ path: './env' });
+require('dotenv').config(); // This will load .env by default
 
 // Import routes
 const authRoutes = require('./routes/auth');
@@ -34,6 +34,7 @@ app.use(express.json({ limit: '10mb' }));
 app.use(express.urlencoded({ extended: true }));
 
 // Database connection
+console.log("process.env.MONGODB_URI", process.env.MONGODB_URI);
 mongoose.connect(process.env.MONGODB_URI)
   .then(() => {
     console.log('Connected to MongoDB successfully');

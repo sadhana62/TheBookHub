@@ -9,7 +9,7 @@ import { useCreateOrderMutation } from '../../redux/features/orders/ordersApi';
 
 const CheckoutPage = () => {
     const cartItems = useSelector(state => state.cart.cartItems);
-    const totalPrice = cartItems.reduce((acc, item) => acc + item.newPrice, 0).toFixed(2);
+    const totalPrice = 50 || cartItems.reduce((acc, item) => acc + item.newPrice, 0).toFixed(2);
     const {  currentUser} = true
     const {
         register,
@@ -23,24 +23,24 @@ const CheckoutPage = () => {
 
     const [isChecked, setIsChecked] = useState(false)
     const onSubmit = async (data) => {
-     
         const newOrder = {
-            name: data.name,
-            email: currentUser?.email,
-            address: {
+            orderItems: cartItems.map(item => ({
+                book: item._id, // MongoDB ObjectId for the book
+                quantity: item.quantity || 1 // default to 1 if not present
+            })),
+            shippingAddress: {
+                address: data.address, // street address
                 city: data.city,
                 country: data.country,
                 state: data.state,
-                zipcode: data.zipcode
-        
+                zipcode: data.zipcode,
+                phone:data.phone
             },
-            phone: data.phone,
-            productIds: cartItems.map(item => item?._id),
-            totalPrice: totalPrice,
-        }
+            paymentMethod: "Cash on Delivery" // or get from a form field if you support multiple
+        };
         
         try {
-            // await createOrder(newOrder).unwrap();
+            await createOrder(newOrder).unwrap();
             Swal.fire({
                 title: "Confirmed Order",
                 text: "Your order placed successfully!",
@@ -52,7 +52,7 @@ const CheckoutPage = () => {
               });
               navigate("/orders")
         } catch (error) {
-            console.error("Error place an order", error);
+            console.error("Error placing an order", error);
             alert("Failed to place an order")
         }
     }
@@ -65,7 +65,7 @@ const CheckoutPage = () => {
                     <div>
                         <div>
                             <h2 className="font-semibold text-xl text-gray-600 mb-2">Cash On Delevary</h2>
-                            <p className="text-gray-500 mb-2">Total Price: ${totalPrice}</p>
+                            <p className="text-gray-500 mb-2">Total Price: $ 50</p>
                             <p className="text-gray-500 mb-6">Items: {cartItems.length > 0 ? cartItems.length : 0}</p>
                         </div>
 
@@ -93,7 +93,7 @@ const CheckoutPage = () => {
                                                     type="text" name="email" id="email" className="h-10 border mt-1 rounded px-4 w-full bg-gray-50"
                                                     disabled
                                                     defaultValue={currentUser?.email}
-                                                    placeholder="email@domain.com" />
+                                                />
                                             </div>
                                             <div className="md:col-span-5">
                                                 <label html="phone">Phone Number</label>
