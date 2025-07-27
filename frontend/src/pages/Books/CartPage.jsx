@@ -9,7 +9,7 @@ const CartPage = () => {
     const dispatch =  useDispatch()
 
     const totalPrice =  cartItems.reduce((acc, item) => acc + item.new_price, 0).toFixed(2);
-
+    console.log('cart',totalPrice);
     const handleRemoveFromCart = (product) => {
         dispatch(removeFromCart(product))
     }
@@ -57,7 +57,7 @@ const CartPage = () => {
                                                                 <h3>
                                                                     <Link to='/'>{product?.title}</Link>
                                                                 </h3>
-                                                                <p className="sm:ml-4">${product?.newPrice}</p>
+                                                                <p className="sm:ml-4">${Number(product?.new_price).toFixed(2)}</p>
                                                             </div>
                                                             <p className="mt-1 text-sm text-gray-500 capitalize"><strong>Category: </strong>{product?.category}</p>
                                                         </div>

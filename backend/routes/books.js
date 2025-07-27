@@ -10,7 +10,7 @@ const router = express.Router();
 // @access  Public
 router.get('/', async (req, res) => {
   try {
-    const { category, search, trending, limit = 10, page = 1 } = req.query;
+    const { category, search, trending, limit = 100, page = 1 } = req.query;
     
     // Build query
     let query = {};

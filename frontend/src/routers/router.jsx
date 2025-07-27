@@ -6,6 +6,7 @@ import Register from "../components/Register";
 import CartPage from "../pages/Books/cartPage";
 import CheckoutPage from "../pages/Books/CheckoutPage";
 import OrdersPage from "../pages/Books/order";
+import BooksPage from "../pages/Books/BooksPage";
 const router = createBrowserRouter([
   {
     path: '/',
@@ -38,6 +39,9 @@ const router = createBrowserRouter([
       {
         path: "/checkout",
         element: <CheckoutPage/>
+      },{
+        path:"/allBooks",
+        element: <BooksPage/>
       }
     ]
   },
