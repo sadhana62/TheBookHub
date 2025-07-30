@@ -7,6 +7,7 @@ import CartPage from "../pages/Books/cartPage";
 import CheckoutPage from "../pages/Books/CheckoutPage";
 import OrdersPage from "../pages/Books/order";
 import BooksPage from "../pages/Books/BooksPage";
+import OwnerDashboard from "../pages/DashBoard"
 const router = createBrowserRouter([
   {
     path: '/',
@@ -42,6 +43,10 @@ const router = createBrowserRouter([
       },{
         path:"/allBooks",
         element: <BooksPage/>
+      },
+      {
+        path:"/dashboard",
+        element:<OwnerDashboard/>
       }
     ]
   },

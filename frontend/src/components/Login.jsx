@@ -49,7 +49,11 @@ const Login = () => {
                     showConfirmButton: false
                 });
                 
-                navigate("/");
+                if (result.user.role === 'admin') {
+        navigate('/dashboard');
+      } else {
+        navigate('/'); // or some other user page
+      }
             } else {
                 setMessage(result.message || 'Login failed');
             }
